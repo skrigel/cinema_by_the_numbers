@@ -1,0 +1,18 @@
+Data Field,Data Type
+ticker,object
+date,object
+title,object
+distributor,object
+gross,int64
+percent_yd,float64
+percent_lw,float64
+theaters,float64
+per_theater,float64
+total_gross,int64
+days_in_release,int64
+parent company,object
+distributor address,object
+distributorwebsite,object
+release_date,object
+year,int64
+title_key,object
