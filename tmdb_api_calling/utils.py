@@ -7,6 +7,7 @@ from tqdm.notebook import tqdm
 
 MOVIE_DISCOVER_URL = "https://api.themoviedb.org/3/discover/movie"
 MOVIE_DETAILS_URL = "https://api.themoviedb.org/3/movie/"
+NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing"
 
 def collect_tmdb_data(movie_ids, output_file_path, checkpoint_every=500, sleep_time=0.35, resume=False):
     """
@@ -194,3 +195,62 @@ def get_n_most_recent_movies(
 
     # Truncate in case we grabbed extra in the last page
     return collected[:n]
+
+
+
+def get_movies_from_url(url: str, headers: Dict[str, str], params: Dict[str, str] = None, limit=500, verbose: bool = False) -> List[Dict]:
+    collected: List[Dict] = []
+
+    page = 1
+    total_pages = None
+
+    while len(collected) < limit:
+
+        if verbose:
+            print(f"Requesting now playing page {page}...")
+
+        if params:
+            resp = requests.get(NOW_PLAYING_URL, headers=headers, params=params)
+        else:
+            resp = requests.get(NOW_PLAYING_URL, headers=headers)
+
+        resp.raise_for_status()
+        data = resp.json()
+
+        if total_pages is None:
+            total_pages = data.get("total_pages", 1)
+
+        results = data.get("results", [])
+        if not results:
+            # Nothing more to fetch
+            break
+
+        for movie in results:
+
+            movie_id = movie["id"]
+
+            # Fetch full details
+            details_resp = requests.get(f"{MOVIE_DETAILS_URL}{movie_id}", headers=headers)
+            if details_resp.status_code != 200:
+                if verbose:
+                    print(f"Skipping movie {movie_id}, status {details_resp.status_code}")
+                continue
+
+            details_data = details_resp.json()
+            flat = flatten_movie_data(details_data)
+
+            # # Optionally keep discover-level fields, like the discover release_date
+            # flat["discover_release_date"] = movie.get("release_date")
+            # flat["discover_popularity"] = movie.get("popularity")
+
+            collected.append(flat)
+
+        page += 1
+        if total_pages is not None and page > total_pages:
+            break  # no more pages
+
+    # Truncate in case we grabbed extra in the last page
+    return collected[:limit]
+
+def get_movies_out_now(headers: Dict[str, str], params: Dict[str, str] = None, limit=500, verbose: bool = False) -> List[Dict]:
+    return get_movies_from_url(NOW_PLAYING_URL, headers, params, limit, verbose)

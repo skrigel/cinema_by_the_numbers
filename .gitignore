@@ -1,2 +1,6 @@
 .env
 .DS_Store
+*.cpython-312.pyc
+*.pyc
+__pycache__
+*.pyo
