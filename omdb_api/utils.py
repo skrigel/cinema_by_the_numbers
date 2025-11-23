@@ -95,8 +95,6 @@ def get_movies_from_ids(api_key: str, movie_ids: List[str], limit=1000, verbose:
 
         data = query_omdb(movie_ids[i], api_key)
 
-
-
         if data is None:
             print(f"Failed to retrieve movie {movie_ids[i]}")
             i += 1
@@ -107,5 +105,3 @@ def get_movies_from_ids(api_key: str, movie_ids: List[str], limit=1000, verbose:
 
     return collected
 
-def get_movies_out_now(headers: Dict[str, str], params: Dict[str, str] = None, limit=500, verbose: bool = False) -> List[Dict]:
-    return get_movies_from_url(NOW_PLAYING_URL, headers, params, limit, verbose)
