@@ -8,6 +8,15 @@ from tqdm.notebook import tqdm
 MOVIE_DISCOVER_URL = "https://api.themoviedb.org/3/discover/movie"
 MOVIE_DETAILS_URL = "https://api.themoviedb.org/3/movie/"
 NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing"
+GENRE_URL = "https://api.themoviedb.org/3/genre/movie/list"
+
+
+def get_genres(headers):
+    resp = requests.get(GENRE_URL, headers=headers)
+    resp.raise_for_status()
+    data = resp.json()
+    return data.get("genres", [])
+
 
 def collect_tmdb_data(movie_ids, output_file_path, checkpoint_every=500, sleep_time=0.35, resume=False):
     """
