@@ -25,10 +25,10 @@ This document outlines the comprehensive merge strategy for combining all data s
 
 - `merged_df.csv`: SOVAI + TMDB basic (15,812 rows)
 - `merged_with_metadata.csv`: SOVAI + TMDB basic + TMDB metadata (15,811 rows)
-- `final_df.csv`: Filtered version (English, post-1990, valid data) - 10,067 rows
+- `final_df.csv`: Filtered version (English, post-1990, valid data) - 4,002 rows
 - `final_with_omdb.csv`: Only 4,152 rows - loses ~60% of data due to dropping rows without Rotten Tomatoes ratings (outdated, not recommended)
-- **`final_merged_dataset.csv`**: Complete merged dataset - 4,429 unique movies, 61 columns (RECOMMENDED)
-- **`final_merged_dataset_with_genres.csv`**: Same as above plus 19 binary genre columns - 4,429 unique movies, 81 columns (RECOMMENDED for choice modeling)
+- **`final_merged_dataset.csv`**: Complete merged dataset - 3,971 unique movies, 72 columns (includes inflation-adjusted values) (RECOMMENDED)
+- **`final_merged_dataset_with_genres.csv`**: Same as above plus 19 binary genre columns - 3,971 unique movies, 92 columns (RECOMMENDED for choice modeling)
 
 ## Problem with Previous Merge
 
@@ -48,7 +48,7 @@ This drops all movies without Rotten Tomatoes ratings, losing valuable data. Man
 ### Steps
 
 1. **Load final_df.csv** (already has SOVAI + TMDB merged and filtered)
-   - 10,068 movies with complete box office and TMDB metadata
+   - 4,002 movies with complete box office and TMDB metadata
 
 2. **Load and combine OMDB batch files**
    - Combine all 11 batch CSV files
@@ -85,10 +85,15 @@ This drops all movies without Rotten Tomatoes ratings, losing valuable data. Man
      - For ratings: take first non-null value
    - Result: One row per unique movie with best available data
 
-7. **Save final dataset**
+7. **Adjust monetary values for inflation**
+   - Convert all dollar amounts to 2024 dollars (present value) using Consumer Price Index (CPI)
+   - Creates adjusted columns: `gross_adjusted_2024`, `total_gross_adjusted_2024`, `budget_adjusted_2024`, `revenue_adjusted_2024`, etc.
+   - Ensures accurate comparisons across different years
+
+8. **Save final dataset**
    - Output: `data/cleaned/final_merged_dataset.csv`
-   - Expected: ~4,429 unique movies (after deduplication)
-   - Columns: All from final_df + OMDB columns (with nulls where OMDB data unavailable)
+   - Expected: ~3,971 unique movies (after date filtering)
+   - Columns: All from final_df + OMDB columns + inflation-adjusted columns (with nulls where OMDB data unavailable)
 
 ## Actual Results (After Filtering and Deduplication)
 
@@ -97,12 +102,13 @@ The final dataset has been filtered to exclude:
 - Movies released after October 2025 or in the last 30 days (saved to `movies_after_2025_10.csv`)
 
 **Final Dataset Statistics:**
-- **Total rows:** 4,429 unique movies (after deduplication)
-- **Total columns:** 61 (combining all data sources)
+- **Total rows:** 3,971 unique movies (after date filtering)
+- **Total columns:** 72 (61 original + 9 inflation-adjusted + 2 helper columns)
 - **Release date range:** 1993-02-11 to 2025-10-23
-- **Movies with OMDB data:** 3,020 movies (68.2% of movies)
-- **Movies without OMDB data:** 1,409 movies (31.8% of movies - OMDB columns are null)
-- **Deduplication:** Removed 5,575 duplicate rows (55.7% reduction) using intelligent value aggregation
+- **Movies with OMDB data:** ~2,710 movies (68.2% of movies)
+- **Movies without OMDB data:** ~1,261 movies (31.8% of movies - OMDB columns are null)
+- **Inflation adjustment:** All monetary values converted to 2024 dollars using CPI data
+- **Deduplication:** No duplicates found (each row is already a unique movie)
 
 ## Benefits of This Approach
 
@@ -141,13 +147,14 @@ This file contains movies from 1990-2025 (excluding the last 30 days) with OMDB 
 ## Key Features of Final Dataset
 
 1. **Filtered for modeling:** Excludes movies before 1990 and very recent releases (after October 2025 or last 30 days)
-2. **Deduplicated:** Each movie appears only once with intelligently aggregated values
+2. **Deduplicated:** Each movie appears only once (no duplicates in current dataset)
 3. **Complete data preservation:** All unique movies from 1990-2025 (excluding last month) are included
 4. **OMDB ratings available:** 68.2% of movies have OMDB data (Rotten Tomatoes, Metacritic, IMDb ratings)
 5. **Clean column structure:** All OMDB columns properly prefixed with `omdb_` to avoid conflicts
 6. **No duplicate columns:** Removed duplicate date columns and irrelevant TV series data
-7. **Ready for modeling:** Contains all required features for prediction and optimization models
-8. **Value aggregation:** When duplicate movies existed, kept best values (max for numeric, longest for text, most recent for dates)
+7. **Inflation adjusted:** All monetary values converted to 2024 dollars (present value) for accurate cross-year comparisons
+8. **Ready for modeling:** Contains all required features for prediction and optimization models
+9. **Inflation-adjusted columns:** Includes `gross_adjusted_2024`, `total_gross_adjusted_2024`, `budget_adjusted_2024`, `revenue_adjusted_2024`, and other monetary values in 2024 dollars
 
 ## Excluded Data
 
@@ -174,16 +181,18 @@ See `CSV_COMPARISON_AND_REQUIREMENTS.md` for detailed column descriptions and mo
 ## Next Steps
 
 1. Use `final_merged_dataset.csv` as the primary dataset for general modeling
-2. Use `final_merged_dataset_with_genres.csv` for choice modeling (includes binary genre columns)
-3. Handle missing OMDB data gracefully in models (68.2% have it, 31.8% don't)
-4. Consider feature engineering with OMDB rating columns
-5. Archive or delete `final_with_omdb.csv` (outdated, loses 58.7% of data)
+2. Use `final_merged_dataset_with_genres.csv` for choice modeling (includes binary genre columns and inflation-adjusted values)
+3. Use inflation-adjusted columns (`*_adjusted_2024`) for accurate cross-year monetary comparisons
+4. Handle missing OMDB data gracefully in models (68.2% have it, 31.8% don't)
+5. Consider feature engineering with OMDB rating columns
+6. Archive or delete `final_with_omdb.csv` (outdated, loses 58.7% of data)
 
 ## Additional Dataset: Genre Encoding
 
 A genre-encoded version of the dataset is available:
 - **File:** `data/cleaned/final_merged_dataset_with_genres.csv`
 - **Created by:** `tmdb_api_calling/genre_encoding.ipynb`
-- **Features:** All columns from `final_merged_dataset.csv` plus 19 binary genre columns (action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western)
-- **Use case:** Ideal for choice modeling and machine learning models requiring binary genre features
+- **Features:** All columns from `final_merged_dataset.csv` (including inflation-adjusted columns) plus 19 binary genre columns (action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western)
+- **Total columns:** 92 (72 base + 19 genre + 1 genres_list)
+- **Use case:** Ideal for choice modeling and machine learning models requiring both binary genre features and inflation-adjusted monetary values
 
