@@ -25,9 +25,10 @@ This document outlines the comprehensive merge strategy for combining all data s
 
 - `merged_df.csv`: SOVAI + TMDB basic (15,812 rows)
 - `merged_with_metadata.csv`: SOVAI + TMDB basic + TMDB metadata (15,811 rows)
-- `final_df.csv`: Filtered version (English, post-2000, valid data) - 10,068 rows
+- `final_df.csv`: Filtered version (English, post-1990, valid data) - 10,067 rows
 - `final_with_omdb.csv`: Only 4,152 rows - loses ~60% of data due to dropping rows without Rotten Tomatoes ratings (outdated, not recommended)
-- **`final_merged_dataset.csv`**: Complete merged dataset - 10,067 rows, 61 columns (RECOMMENDED)
+- **`final_merged_dataset.csv`**: Complete merged dataset - 4,429 unique movies, 61 columns (RECOMMENDED)
+- **`final_merged_dataset_with_genres.csv`**: Same as above plus 19 binary genre columns - 4,429 unique movies, 81 columns (RECOMMENDED for choice modeling)
 
 ## Problem with Previous Merge
 
@@ -52,7 +53,7 @@ This drops all movies without Rotten Tomatoes ratings, losing valuable data. Man
 2. **Load and combine OMDB batch files**
    - Combine all 11 batch CSV files
    - Remove duplicates based on `imdbID`
-   - Filter to post-2000 releases (matching final_df filter)
+   - Filter to post-1990 releases (matching final_df filter)
 
 3. **Clean OMDB data**
    - Rename `imdbID` → `imdb_id` for consistency
@@ -68,29 +69,49 @@ This drops all movies without Rotten Tomatoes ratings, losing valuable data. Man
    )
    ```
 
-5. **Clean up columns**
+5. **Filter by date range**
+   - Filter to movies from 1990-01-01 to 2025-10-31
+   - Exclude movies from the last 30 days (if any are after Oct 31)
+   - This ensures reliable training data
+
+6. **Clean up columns and remove duplicate movies**
    - Remove duplicate date columns (`date_x`, `date_y`)
    - Drop columns with all null values
-   - Rename columns for clarity
+   - **Deduplicate movies** using intelligent value aggregation:
+     - Group by `title_key` (normalized movie title)
+     - For numeric columns (gross, revenue, theaters): take maximum value
+     - For dates: take most recent
+     - For text: take longest/most complete
+     - For ratings: take first non-null value
+   - Result: One row per unique movie with best available data
 
-6. **Save final dataset**
+7. **Save final dataset**
    - Output: `data/cleaned/final_merged_dataset.csv`
-   - Expected: ~10,068 rows (same as final_df)
+   - Expected: ~4,429 unique movies (after deduplication)
    - Columns: All from final_df + OMDB columns (with nulls where OMDB data unavailable)
 
-## Actual Results
+## Actual Results (After Filtering and Deduplication)
 
-- **Total rows:** 10,067 (preserves all movies from final_df)
-- **Movies with OMDB data:** 6,233 (61.9% of movies)
-- **Movies without OMDB data:** 3,834 (38.1% of movies - OMDB columns are null)
+The final dataset has been filtered to exclude:
+- Movies released before 1990 (saved to `movies_before_1990.csv`)
+- Movies released after October 2025 or in the last 30 days (saved to `movies_after_2025_10.csv`)
+
+**Final Dataset Statistics:**
+- **Total rows:** 4,429 unique movies (after deduplication)
 - **Total columns:** 61 (combining all data sources)
+- **Release date range:** 1993-02-11 to 2025-10-23
+- **Movies with OMDB data:** 3,020 movies (68.2% of movies)
+- **Movies without OMDB data:** 1,409 movies (31.8% of movies - OMDB columns are null)
+- **Deduplication:** Removed 5,575 duplicate rows (55.7% reduction) using intelligent value aggregation
 
 ## Benefits of This Approach
 
-1. **No data loss:** All movies from final_df are preserved
-2. **Flexible analysis:** Can analyze with or without OMDB ratings
-3. **Handles missing data:** Missing OMDB data is represented as nulls, not dropped rows
-4. **Clean column structure:** Proper naming and no duplicates
+1. **No data loss from merge:** All movies from final_df are preserved (before deduplication)
+2. **Intelligent deduplication:** Each movie appears only once with best available data aggregated
+3. **Flexible analysis:** Can analyze with or without OMDB ratings
+4. **Handles missing data:** Missing OMDB data is represented as nulls, not dropped rows
+5. **Clean column structure:** Proper naming and no duplicate columns
+6. **Value aggregation:** When duplicates exist, keeps maximum values for numeric fields, most recent dates, longest text descriptions
 
 ## Implementation
 
@@ -115,30 +136,54 @@ jupyter notebook data_cleaning/merge_all_data.ipynb
 The final merged dataset is saved at:
 - `data/cleaned/final_merged_dataset.csv`
 
-This file contains all movies from `final_df.csv` with OMDB ratings data added where available. Movies without OMDB data have null values for OMDB columns, preserving all 10,067 movies.
+This file contains movies from 1990-2025 (excluding the last 30 days) with OMDB ratings data added where available. Movies without OMDB data have null values for OMDB columns. The dataset has been filtered to exclude very old movies (pre-1990) and very recent releases (last 30 days) to ensure reliable training data.
 
 ## Key Features of Final Dataset
 
-1. **Complete data preservation:** All 10,067 movies from final_df.csv are included
-2. **OMDB ratings available:** 61.9% of movies have OMDB data (Rotten Tomatoes, Metacritic, IMDb ratings)
-3. **Clean column structure:** All OMDB columns properly prefixed with `omdb_` to avoid conflicts
-4. **No duplicate columns:** Removed duplicate date columns and irrelevant TV series data
-5. **Ready for modeling:** Contains all required features for prediction and optimization models
+1. **Filtered for modeling:** Excludes movies before 1990 and very recent releases (after October 2025 or last 30 days)
+2. **Deduplicated:** Each movie appears only once with intelligently aggregated values
+3. **Complete data preservation:** All unique movies from 1990-2025 (excluding last month) are included
+4. **OMDB ratings available:** 68.2% of movies have OMDB data (Rotten Tomatoes, Metacritic, IMDb ratings)
+5. **Clean column structure:** All OMDB columns properly prefixed with `omdb_` to avoid conflicts
+6. **No duplicate columns:** Removed duplicate date columns and irrelevant TV series data
+7. **Ready for modeling:** Contains all required features for prediction and optimization models
+8. **Value aggregation:** When duplicate movies existed, kept best values (max for numeric, longest for text, most recent for dates)
+
+## Excluded Data
+
+Two separate exclusion files are automatically generated by the merge notebook:
+- `data/cleaned/movies_before_1990.csv`: Movies released before 1990 (45 movies)
+- `data/cleaned/movies_after_2025_10.csv`: Movies released after October 2025 or in the last 30 days (18 movies)
+
+These files are regenerated each time the merge notebook is run to ensure consistency.
 
 ## Dataset Usage
 
 Use `final_merged_dataset.csv` for:
 - Time series forecasting models
-- Choice modeling (multinomial logit)
+- General analysis and feature engineering
 - Optimization model inputs
-- Feature engineering
+
+Use `final_merged_dataset_with_genres.csv` for:
+- Choice modeling (multinomial logit) - **Recommended** (includes binary genre columns)
+- Machine learning models requiring categorical genre features
+- Any analysis benefiting from binary genre encoding
 
 See `CSV_COMPARISON_AND_REQUIREMENTS.md` for detailed column descriptions and model requirements.
 
 ## Next Steps
 
-1. Use `final_merged_dataset.csv` as the primary dataset for all modeling
-2. Handle missing OMDB data gracefully in models (61.9% have it, 38.1% don't)
-3. Consider feature engineering with OMDB rating columns
-4. Archive or delete `final_with_omdb.csv` (outdated, loses 58.7% of data)
+1. Use `final_merged_dataset.csv` as the primary dataset for general modeling
+2. Use `final_merged_dataset_with_genres.csv` for choice modeling (includes binary genre columns)
+3. Handle missing OMDB data gracefully in models (68.2% have it, 31.8% don't)
+4. Consider feature engineering with OMDB rating columns
+5. Archive or delete `final_with_omdb.csv` (outdated, loses 58.7% of data)
+
+## Additional Dataset: Genre Encoding
+
+A genre-encoded version of the dataset is available:
+- **File:** `data/cleaned/final_merged_dataset_with_genres.csv`
+- **Created by:** `tmdb_api_calling/genre_encoding.ipynb`
+- **Features:** All columns from `final_merged_dataset.csv` plus 19 binary genre columns (action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western)
+- **Use case:** Ideal for choice modeling and machine learning models requiring binary genre features
 

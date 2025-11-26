@@ -1,25 +1,38 @@
 # CSV Files Comparison & Model Requirements
 
-## Overview of Three CSV Files
+## Overview of CSV Files
 
 ### 1. `final_df.csv` (Base Dataset)
-- **Rows:** 10,068
+- **Rows:** 10,067
 - **Columns:** 39
 - **Content:** SOVAI box office data + TMDB metadata (merged and filtered)
-- **Status:** Complete base dataset
+- **Status:** Complete base dataset (before OMDB merge and deduplication)
 
 ### 2. `final_with_omdb.csv` (Old Merge - NOT RECOMMENDED)
-- **Rows:** 4,152 (**Lost 5,916 movies - 58.7% data loss**)
+- **Rows:** 4,152 (**Lost 5,915 movies - 58.7% data loss**)
 - **Columns:** 71
 - **Content:** SOVAI + TMDB + OMDB data
 - **Status:** **Outdated - drops movies without Rotten Tomatoes ratings**
 - **Issue:** Uses `dropna(subset=["Rating_RottenTomatoes"])` which removes valuable data
+- **Note:** This file is kept for reference but should not be used for analysis
 
 ### 3. `final_merged_dataset.csv` (Recommended)
-- **Rows:** 10,067 (**Preserves all movies**)
+- **Rows:** 4,429 unique movies (after deduplication)
 - **Columns:** 61
 - **Content:** SOVAI + TMDB + OMDB data (left join - preserves all movies)
+- **Date range:** 1993-02-11 to 2025-10-23 (excludes pre-1990 and last 30 days)
+- **OMDB coverage:** 68.2% of movies have OMDB ratings data
+- **Deduplication:** Removed 5,575 duplicate rows (55.7% reduction) using intelligent value aggregation
 - **Status:** **Use this file for all analysis**
+
+### 4. `final_merged_dataset_with_genres.csv` (Recommended)
+- **Rows:** 4,429 unique movies (same as `final_merged_dataset.csv`)
+- **Columns:** 81 (61 original + 19 binary genre columns + 1 genres_list column)
+- **Content:** All data from `final_merged_dataset.csv` plus binary-encoded genre columns
+- **Genre encoding:** 19 binary columns (0/1) for each genre: action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western
+- **Date range:** 1993-02-11 to 2025-10-23 (same as base dataset)
+- **OMDB coverage:** 68.2% of movies have OMDB ratings data
+- **Status:** **Use this file for choice modeling and any analysis requiring binary genre features**
 
 ---
 
@@ -145,6 +158,36 @@
 
 ---
 
+### Additional Columns in `final_merged_dataset_with_genres.csv` (20 extra columns)
+
+**All columns from `final_merged_dataset.csv` (61 columns) plus:**
+
+**Genre Encoding (binary 0/1 columns):**
+62. `genres_list` - List of normalized genre names (intermediate column)
+63. `action` - Binary flag (1 if movie has Action genre, 0 otherwise) **USEFUL FOR CHOICE MODELING**
+64. `adventure` - Binary flag for Adventure genre
+65. `animation` - Binary flag for Animation genre
+66. `comedy` - Binary flag for Comedy genre
+67. `crime` - Binary flag for Crime genre
+68. `documentary` - Binary flag for Documentary genre
+69. `drama` - Binary flag for Drama genre
+70. `family` - Binary flag for Family genre
+71. `fantasy` - Binary flag for Fantasy genre
+72. `history` - Binary flag for History genre
+73. `horror` - Binary flag for Horror genre
+74. `music` - Binary flag for Music genre
+75. `mystery` - Binary flag for Mystery genre
+76. `romance` - Binary flag for Romance genre
+77. `science_fiction` - Binary flag for Science Fiction genre
+78. `thriller` - Binary flag for Thriller genre
+79. `tv_movie` - Binary flag for TV Movie genre
+80. `war` - Binary flag for War genre
+81. `western` - Binary flag for Western genre
+
+**Note:** These binary genre columns are created using `MultiLabelBinarizer` from scikit-learn, which converts the comma-separated `genre_names` string into individual binary columns. This format is ideal for machine learning models, especially choice modeling where genre preferences are key features.
+
+---
+
 ## Model Inputs
 
 ### 1. **Time Series Forecasting Model** (Total Daily Theater Demand)
@@ -167,6 +210,7 @@
 
 **Required Inputs:**
 - `genre_names` or `genre_ids` - Genre preferences 
+- **OR use binary genre columns** from `final_merged_dataset_with_genres.csv` (action, adventure, animation, etc.) - **Recommended for easier modeling**
 - `runtime` - Movie duration
 - `release_date` / `days_in_release` - Recency factor
 - `overview` - Movie description (for text features)
@@ -207,10 +251,12 @@
 
 ### Why Use This File:
 
-1. **Complete Data:** Preserves all 10,067 movies (no data loss)
-2. **All Required Features:** Contains all columns needed for models
-3. **Clean Structure:** Proper column naming, no duplicates
-4. **OMDB Ratings Available:** 61.9% of movies have OMDB data for enhanced predictions
+1. **Complete Data:** Preserves all movies from base dataset (no data loss from merge)
+2. **Deduplicated:** Each movie appears only once with intelligently aggregated values
+3. **All Required Features:** Contains all columns needed for models
+4. **Clean Structure:** Proper column naming, no duplicate columns
+5. **OMDB Ratings Available:** 68.2% of movies have OMDB data for enhanced predictions
+6. **Date Filtered:** Includes only movies from 1990 to October 2025 (excludes pre-1990 and very recent releases)
 
 ### Essential Columns for Your Models:
 
@@ -223,7 +269,7 @@
 - `date`, `weekday`, `is_weekend` - For time series
 - `gross`, `total_gross`, `theaters` - For demand prediction
 
-**From OMDB (available for 61.9% of movies):**
+**From OMDB (available for 68.2% of movies):**
 - `omdb_rating_rottentomatoes` - Rotten Tomatoes score
 - `omdb_rating_metacritic` - Metacritic score
 - `omdb_imdbrating` - IMDb rating
@@ -233,9 +279,14 @@
 
 ## Summary
 
-| File | Rows | Columns | OMDB Data | Data Loss | Recommendation |
-|------|------|---------|-----------|-----------|----------------|
-| `final_df.csv` | 10,068 | 39 | No | None | Base dataset only |
-| `final_with_omdb.csv` | 4,152 | 71 | Yes | **58.7% lost** | **Don't use** |
-| `final_merged_dataset.csv` | 10,067 | 61 | Yes (61.9%) | None | **Use this** |
+| File | Rows | Columns | OMDB Data | Genre Encoding | Recommendation |
+|------|------|---------|-----------|----------------|----------------|
+| `final_df.csv` | 10,067 | 39 | No | No | Base dataset only |
+| `final_with_omdb.csv` | 4,152 | 71 | Yes | No | **Don't use** (58.7% data loss) |
+| `final_merged_dataset.csv` | 4,429 | 61 | Yes (68.2%) | No | **Use for general analysis** |
+| `final_merged_dataset_with_genres.csv` | 4,429 | 81 | Yes (68.2%) | Yes (19 binary columns) | **Use for choice modeling** |
+
+**Notes:**
+- `final_merged_dataset.csv`: After deduplication, contains 4,429 unique movies. The original merge preserved all movies, but duplicates were removed using intelligent value aggregation (taking maximum values for numeric fields, longest text for descriptions, etc.).
+- `final_merged_dataset_with_genres.csv`: Contains all data from `final_merged_dataset.csv` plus 19 binary genre columns (0/1) for machine learning models that require categorical genre features.
 
