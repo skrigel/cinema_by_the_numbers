@@ -1,0 +1,9 @@
+metric,value
+total_revenue,317562.18
+total_showings,104.0
+total_tickets_sold,28078.0
+num_movies_scheduled,98.0
+num_screens_used,18.0
+avg_showings_per_movie,9.214285714285714
+avg_tickets_per_showing,217.65891472868216
+capacity_utilization,1.0364710225175342

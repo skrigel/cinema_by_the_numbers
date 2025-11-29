@@ -1,0 +1,8 @@
+parameter,value
+ticket_price,11.31
+buffer_min,15.0
+max_showings_per_movie_per_day,5.0
+num_screens,19.0
+operating_hours_per_day,12.0
+num_movies,14.0
+num_days,7.0
