@@ -1,6 +1,6 @@
 Data Field,Data Type
 ticker,object
-date,object
+date,datetime64[ns]
 title,object
 distributor,object
 gross,int64
@@ -13,16 +13,18 @@ days_in_release,int64
 parent company,object
 distributor address,object
 distributorwebsite,object
-release_date,object
+release_date,datetime64[ns]
 year,int64
 title_key,object
 weekday,int32
 release_month,int32
 release_weekday,int32
 is_weekend,int64
+days_since_release,int64
 average_theaters,float64
-average_gross,float64
-average_gross_per_theaters,float64
+average_daily_gross,float64
+average_daily_gross_per_theater,float64
+average_gross_per_theater,float64
 avg_gross_monday,float64
 avg_gross_tuesday,float64
 avg_gross_wednesday,float64
