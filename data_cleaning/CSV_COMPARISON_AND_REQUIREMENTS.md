@@ -18,7 +18,7 @@
 
 ### 3. `final_merged_dataset.csv` (Recommended)
 - **Rows:** 3,971 unique movies (after date filtering)
-- **Columns:** 72 (61 original + 9 inflation-adjusted + 2 helper columns)
+- **Columns:** 90+ (61 original + 9 base inflation-adjusted + 2 helper columns + ~18 new gross columns)
 - **Content:** SOVAI + TMDB + OMDB data (left join - preserves all movies)
 - **Date range:** 1993-02-11 to 2025-10-23 (excludes pre-1990 and last 30 days)
 - **OMDB coverage:** 68.2% of movies have OMDB ratings data
@@ -28,7 +28,7 @@
 
 ### 4. `final_merged_dataset_with_genres.csv` (Recommended)
 - **Rows:** 3,971 unique movies (same as `final_merged_dataset.csv`)
-- **Columns:** 92 (72 from base + 19 binary genre columns + 1 genres_list column)
+- **Columns:** 110+ (90+ from base + 19 binary genre columns + 1 genres_list column)
 - **Content:** All data from `final_merged_dataset.csv` plus binary-encoded genre columns
 - **Genre encoding:** 19 binary columns (0/1) for each genre: action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western
 - **Inflation adjustment:** Includes all inflation-adjusted monetary values in 2024 dollars
@@ -171,11 +171,35 @@
 71. `omdb_boxoffice_adjusted_2024` - OMDB box office earnings in 2024 dollars
 72. `omdb_boxoffice_clean` - Cleaned numeric version of omdb_boxoffice (intermediate column)
 
+**Average Gross Columns (NEW - from Sasha's updates):**
+73. `average_daily_gross` - Average daily gross across all reported dates (before deduplication)
+74. `average_daily_gross_adjusted_2024` - Average daily gross in 2024 dollars **USEFUL FOR PREDICTIONS**
+75. `average_daily_gross_per_theater` - Average daily gross per theater
+76. `average_daily_gross_per_theater_adjusted_2024` - Average daily gross per theater in 2024 dollars **USEFUL FOR PREDICTIONS**
+77. `average_weekly_gross` - Average weekly gross (average_daily_gross * 7)
+78. `average_weekly_gross_adjusted_2024` - Average weekly gross in 2024 dollars
+79. `average_weekly_gross_per_theater` - Average weekly gross per theater
+80. `average_weekly_gross_per_theater_adjusted_2024` - Average weekly gross per theater in 2024 dollars
+81. `weekly_gross_per_theater_adjusted_2024` - Weekly gross per theater in 2024 dollars
+
+**Day-of-Week Gross Columns (NEW - from Sasha's updates):**
+82. `avg_gross_monday` - Average gross on Mondays
+83. `avg_gross_tuesday` - Average gross on Tuesdays
+84. `avg_gross_wednesday` - Average gross on Wednesdays
+85. `avg_gross_thursday` - Average gross on Thursdays
+86. `avg_gross_friday` - Average gross on Fridays
+87. `avg_gross_saturday` - Average gross on Saturdays
+88. `avg_gross_sunday` - Average gross on Sundays
+89. `avg_gross_weekend` - Average gross on weekends (Friday-Sunday) **USEFUL FOR PREDICTIONS**
+90. `avg_gross_weekday` - Average gross on weekdays (Monday-Thursday) **USEFUL FOR PREDICTIONS**
+
+**Note:** The average gross columns are calculated from all reported dates for each movie (within 120 days of release) before removing duplicates. This provides a more accurate representation of daily performance patterns than using a single date's gross value.
+
 ---
 
 ### Additional Columns in `final_merged_dataset_with_genres.csv` (20 extra columns)
 
-**All columns from `final_merged_dataset.csv` (72 columns) plus:**
+**All columns from `final_merged_dataset.csv` (90+ columns) plus:**
 
 **Genre Encoding (binary 0/1 columns):**
 73. `genres_list` - List of normalized genre names (intermediate column)
@@ -219,6 +243,8 @@
 - `theaters` - Theater count for normalization
 - `per_theater` - Per-theater performance
 - `gross_adjusted_2024`, `total_gross_adjusted_2024` - Inflation-adjusted values for accurate comparisons across years
+- `average_daily_gross_adjusted_2024` - Average daily gross (NEW - more stable than single-day values)
+- `avg_gross_weekend`, `avg_gross_weekday` - Day-of-week patterns (NEW)
 
 ---
 
@@ -240,6 +266,9 @@
 - `omdb_imdbrating` - IMDb rating (if available)
 - `budget_adjusted_2024` - Production budget in 2024 dollars (quality signal, use adjusted for cross-year comparisons)
 - `is_weekend` - Weekend vs weekday preference
+- `average_daily_gross_adjusted_2024` - Average daily gross in 2024 dollars (NEW - better for predictions than single-day gross)
+- `average_daily_gross_per_theater_adjusted_2024` - Average daily gross per theater in 2024 dollars (NEW)
+- `avg_gross_weekend` / `avg_gross_weekday` - Day-of-week performance patterns (NEW - useful for demand prediction)
 
 **Optional:**
 - `omdb_rated` - MPAA rating (G, PG, PG-13, R)
@@ -257,6 +286,11 @@
 - `release_date` - For recency constraints
 - `days_in_release` - For recency calculations
 - `gross_adjusted_2024` or `total_gross_adjusted_2024` - Revenue in 2024 dollars for accurate revenue calculations
+
+**Recommended for Demand Prediction:**
+- `average_daily_gross_adjusted_2024` - Average daily gross (NEW - preferred over single-day gross for predictions)
+- `average_daily_gross_per_theater_adjusted_2024` - Average daily gross per theater (NEW)
+- `avg_gross_weekend`, `avg_gross_weekday` - Day-of-week patterns (NEW - useful for scheduling)
 
 **Optional:**
 - `genre_names` - For diversity constraints
@@ -287,6 +321,8 @@
 - `date`, `weekday`, `is_weekend` - For time series
 - `gross`, `total_gross`, `theaters` - For demand prediction
 - `gross_adjusted_2024`, `total_gross_adjusted_2024`, `budget_adjusted_2024`, `revenue_adjusted_2024` - Inflation-adjusted monetary values in 2024 dollars
+- `average_daily_gross_adjusted_2024`, `average_daily_gross_per_theater_adjusted_2024` - NEW: Average daily performance (preferred for predictions)
+- `avg_gross_weekend`, `avg_gross_weekday` - NEW: Day-of-week performance patterns
 
 **From OMDB (available for 68.2% of movies):**
 - `omdb_rating_rottentomatoes` - Rotten Tomatoes score
@@ -302,10 +338,10 @@
 |------|------|---------|-----------|-------------------|----------------|----------------|
 | `final_df.csv` | 4,002 | 39 | No | No | No | Base dataset only |
 | `final_with_omdb.csv` | 4,152 | 71 | Yes | No | No | **Don't use** (58.7% data loss) |
-| `final_merged_dataset.csv` | 3,971 | 72 | Yes (68.2%) | Yes (9 columns) | No | **Use for general analysis** |
-| `final_merged_dataset_with_genres.csv` | 3,971 | 92 | Yes (68.2%) | Yes (9 columns) | Yes (19 binary columns) | **Use for choice modeling** |
+| `final_merged_dataset.csv` | 3,971 | 90+ | Yes (68.2%) | Yes (9+ columns) | No | **Use for general analysis** |
+| `final_merged_dataset_with_genres.csv` | 3,971 | 110+ | Yes (68.2%) | Yes (9+ columns) | Yes (19 binary columns) | **Use for choice modeling** |
 
 **Notes:**
-- `final_merged_dataset.csv`: Contains 3,971 unique movies after date filtering (1990-2025, excluding last 30 days). All monetary values are adjusted to 2024 dollars (present value) using Consumer Price Index (CPI) data. Includes 9 inflation-adjusted columns: `gross_adjusted_2024`, `total_gross_adjusted_2024`, `per_theater_adjusted_2024`, `gross_per_theater_adjusted_2024`, `budget_adjusted_2024`, `revenue_adjusted_2024`, `omdb_boxoffice_adjusted_2024`, plus helper columns `cpi_release_year` and `inflation_factor`.
-- `final_merged_dataset_with_genres.csv`: Contains all data from `final_merged_dataset.csv` (including inflation-adjusted columns) plus 19 binary genre columns (0/1) for machine learning models that require categorical genre features. Ideal for choice modeling where both monetary values and genre preferences are needed.
+- `final_merged_dataset.csv`: Contains 3,971 unique movies after date filtering (1990-2025, excluding last 30 days). All monetary values are adjusted to 2024 dollars (present value) using Consumer Price Index (CPI) data. Includes base inflation-adjusted columns: `gross_adjusted_2024`, `total_gross_adjusted_2024`, `per_theater_adjusted_2024`, `gross_per_theater_adjusted_2024`, `budget_adjusted_2024`, `revenue_adjusted_2024`, `omdb_boxoffice_adjusted_2024`, plus helper columns `cpi_release_year` and `inflation_factor`. **NEW:** Also includes average gross columns (`average_daily_gross_adjusted_2024`, `average_daily_gross_per_theater_adjusted_2024`, etc.) and day-of-week columns (`avg_gross_weekend`, `avg_gross_weekday`, `avg_gross_monday` through `avg_gross_sunday`) calculated from all reported dates within 120 days of release. These provide more stable and accurate performance metrics than single-day values.
+- `final_merged_dataset_with_genres.csv`: Contains all data from `final_merged_dataset.csv` (including all inflation-adjusted columns and new average gross columns) plus 19 binary genre columns (0/1) for machine learning models that require categorical genre features. Ideal for choice modeling where both monetary values, performance patterns, and genre preferences are needed. **Recommended for choice modeling** as it includes all necessary features in a ready-to-use format.
 
