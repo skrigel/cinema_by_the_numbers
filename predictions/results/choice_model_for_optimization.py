@@ -1,5 +1,23 @@
 # Choice Model Output for Optimization Model
 # Generated from choice_modeling.ipynb
+#
+# ⚠️ CRITICAL: ALL movie IDs are INTEGERS (not strings)
+# - demand keys: (int, str) tuples, e.g., (266, "Mon")
+# - runtimes keys: int, e.g., 266
+# - movie_ids: list of int, e.g., [978, 3664, ...]
+# - genre_to_movies values: lists of int, e.g., [978, 3488, ...]
+#
+# DO NOT convert these to strings - they must remain integers!
+# The optimization model expects integer IDs to match the demand dictionary keys.
+#
+# ⚠️ IMPORTANT: If loading from JSON in optimization notebook:
+#   Use: demand = load_demand_from_json('path/to/choice_model_demand.json')
+#   OR: demand = {(int(k.split('_')[0]), k.split('_')[1]): v for k, v in json.load(f).items()}
+#   NOT: demand = {tuple(k.split('_')): v for k, v in json.load(f).items()}  # This creates string IDs!
+#
+# ⚠️ IMPORTANT: If loading movie_ids from CSV:
+#   Use: movie_ids = metadata['movie_id'].astype(int).tolist()  # Keep as integers!
+#   NOT: movie_ids = metadata['movie_id'].astype(str).tolist()  # This causes KeyError!
 
 demand = {
     (266, "Fri"): 27987,
@@ -128,3 +146,59 @@ runtimes = {
 }
 
 movie_ids = [978, 3664, 3488, 2464, 2876, 2486, 2799, 1793, 2552, 471, 3903, 1751, 266, 2686, 1292]
+
+genre_to_movies = {
+    'action': [],
+    'adventure': [2876],
+    'animation': [2876, 266],
+    'comedy': [2464, 2876, 2552],
+    'crime': [3488, 2552],
+    'documentary': [3664, 1292],
+    'drama': [978, 3488, 2486, 2799, 1793, 2552, 3903, 1751],
+    'family': [2876],
+    'fantasy': [],
+    'history': [3903],
+    'horror': [471, 2686],
+    'music': [],
+    'mystery': [2686],
+    'romance': [2486],
+    'science_fiction': [],
+    'thriller': [471, 3903, 2686],
+    'tv_movie': [],
+    'war': [],
+    'western': [],
+}
+
+genre_columns = ['action', 'adventure', 'animation', 'comedy', 'crime', 'documentary', 'drama', 'family', 'fantasy', 'history', 'horror', 'music', 'mystery', 'romance', 'science_fiction', 'thriller', 'tv_movie', 'war', 'western']
+
+# Validation: Ensure all IDs are integers and consistent
+assert all(isinstance(mid, int) for mid in movie_ids), "movie_ids must be integers"
+assert all(isinstance(k[0], int) for k in demand.keys()), "demand keys must have integer movie IDs"
+assert all(isinstance(k, int) for k in runtimes.keys()), "runtimes keys must be integers"
+assert all(isinstance(mid, int) for genre_list in genre_to_movies.values() for mid in genre_list), "genre_to_movies must contain integer IDs"
+# CRITICAL: Ensure all genre_to_movies IDs are in movie_ids (prevents KeyError in optimization)
+movie_ids_set = set(movie_ids)
+all_genre_ids = set()
+for movie_list in genre_to_movies.values():
+    all_genre_ids.update(movie_list)
+invalid_genre_ids = all_genre_ids - movie_ids_set
+assert len(invalid_genre_ids) == 0, f"CRITICAL: genre_to_movies contains IDs not in movie_ids: {invalid_genre_ids}"
+print("✓ All movie IDs validated as integers and consistent")
+
+# Helper function to load demand from JSON with integer movie IDs
+def load_demand_from_json(json_path):
+    """
+    Load demand dictionary from JSON file with integer movie IDs.
+    
+    Args:
+        json_path: Path to choice_model_demand.json
+    
+    Returns:
+        dict: Demand dictionary with (int, str) tuple keys
+    """
+    import json
+    with open(json_path, 'r') as f:
+        demand_json = json.load(f)
+    # Convert string keys to tuple keys with INTEGER movie IDs
+    # Format: "2876_Mon" -> (2876, "Mon") not ('2876', 'Mon')
+    return {(int(k.split('_')[0]), k.split('_')[1]): int(v) for k, v in demand_json.items()}
