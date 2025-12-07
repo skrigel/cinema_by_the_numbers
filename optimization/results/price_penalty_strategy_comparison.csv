@@ -1,0 +1,11 @@
+Price,Optimal_Penalty,Revenue,vs_Baseline,Max_Showings,Unique_Movies,Strategy_Type
+$8.00,$300,"$98,012",+6.8%,1.0,98.0,Value + High Variety
+$9.00,$300,"$96,889",+5.6%,1.0,98.0,Value + High Variety
+$10.00,$300,"$95,895",+4.5%,1.0,98.0,Value + High Variety
+$11.00,$300,"$95,006",+3.6%,1.0,98.0,Balanced Strategy
+$12.00,$300,"$94,201",+2.7%,1.0,98.0,Balanced Strategy
+$13.00,$300,"$93,467",+1.9%,1.0,98.0,Balanced Strategy
+$14.00,$300,"$92,792",+1.2%,1.0,98.0,Premium + High Variety
+$15.00,$300,"$92,168",+0.5%,1.0,98.0,Premium + High Variety
+$16.00,$300,"$91,589",-0.2%,1.0,98.0,Premium + High Variety
+$17.00,$300,"$91,048",-0.7%,1.0,98.0,Premium + High Variety
