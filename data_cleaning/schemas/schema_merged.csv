@@ -16,15 +16,15 @@ distributorwebsite,object
 release_date,datetime64[ns]
 year,int64
 title_key,object
-weekday,int32
-release_month,int32
-release_weekday,int32
+weekday,int64
+release_month,int64
+release_weekday,int64
 is_weekend,int64
 days_since_release,int64
 average_theaters,float64
 average_daily_gross,float64
 average_daily_gross_per_theater,float64
-total_gross_by_average_theaters,float64
+gross_per_theater_by_total,float64
 avg_gross_monday,float64
 avg_gross_tuesday,float64
 avg_gross_wednesday,float64
@@ -34,7 +34,6 @@ avg_gross_saturday,float64
 avg_gross_sunday,float64
 avg_gross_weekend,float64
 avg_gross_weekday,float64
-gross_per_theater_by_total,float64
 weekly_gross_by_total,float64
 average_weekly_gross,float64
 average_weekly_gross_per_theater,float64

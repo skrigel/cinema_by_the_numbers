@@ -14,7 +14,3 @@ __pycache__
 # Large data files
 *.parq
 *.parquet
-
-# Results directory (generated files)
-predictions/results/*.pkl
-predictions/results/*.csv
