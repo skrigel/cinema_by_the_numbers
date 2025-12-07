@@ -1,99 +1,106 @@
-movie_id,day,realized_tickets,scheduled_flag
-267,Mon,6.0,1
-267,Tue,6.0,1
-267,Wed,7.0,1
-267,Thu,8.0,1
-267,Fri,10.0,1
-267,Sat,13.0,1
-267,Sun,13.0,1
-475,Mon,80.0,1
-475,Tue,80.0,1
-475,Wed,90.0,1
-475,Thu,100.0,1
-475,Fri,131.0,1
-475,Sat,161.0,1
-475,Sun,161.0,1
-1306,Mon,73.0,1
-1306,Tue,73.0,1
-1306,Wed,82.0,1
-1306,Thu,91.0,1
-1306,Fri,118.0,1
-1306,Sat,146.0,1
-1306,Sun,146.0,1
-1773,Mon,372.0,1
-1773,Tue,372.0,1
-1773,Wed,419.0,1
-1773,Thu,465.0,1
-1773,Fri,605.0,1
-1773,Sat,745.0,1
-1773,Sun,745.0,1
-1815,Mon,14.0,1
-1815,Tue,14.0,1
-1815,Wed,16.0,1
-1815,Thu,18.0,1
-1815,Fri,24.0,1
-1815,Sat,29.0,1
-1815,Sun,29.0,1
-2496,Mon,97.0,1
-2496,Tue,97.0,1
-2496,Wed,109.0,1
-2496,Thu,121.0,1
-2496,Fri,157.0,1
-2496,Sat,194.0,1
-2496,Sun,194.0,1
-2519,Mon,61.0,1
-2519,Tue,61.0,1
-2519,Wed,69.0,1
-2519,Thu,76.0,1
-2519,Fri,99.0,1
-2519,Sat,122.0,1
-2519,Sun,122.0,1
-2585,Mon,103.0,1
-2585,Tue,103.0,1
-2585,Wed,116.0,1
-2585,Thu,129.0,1
-2585,Fri,168.0,1
-2585,Sat,207.0,1
-2585,Sun,207.0,1
-2722,Mon,111.0,1
-2722,Tue,111.0,1
-2722,Wed,124.0,1
-2722,Thu,138.0,1
-2722,Fri,180.0,1
-2722,Sat,222.0,1
-2722,Sun,222.0,1
-2836,Mon,67.0,1
-2836,Tue,67.0,1
-2836,Wed,75.0,1
-2836,Thu,84.0,1
-2836,Fri,109.0,1
-2836,Sat,134.0,1
-2836,Sun,134.0,1
-2913,Mon,24.0,1
-2913,Tue,24.0,1
-2913,Wed,27.0,1
-2913,Thu,31.0,1
-2913,Fri,40.0,1
-2913,Sat,49.0,1
-2913,Sun,49.0,1
-3530,Mon,24.0,1
-3530,Tue,24.0,1
-3530,Wed,27.0,1
-3530,Thu,30.0,1
-3530,Fri,39.0,1
-3530,Sat,48.0,1
-3530,Sun,48.0,1
-3707,Mon,1770.0,1
-3707,Tue,1770.0,1
-3707,Wed,1991.0,1
-3707,Thu,2212.0,1
-3707,Fri,2876.0,1
-3707,Sat,3000.0,1
-3707,Sun,3000.0,1
-3947,Mon,112.0,1
-3947,Tue,112.0,1
-3947,Wed,126.0,1
-3947,Thu,140.0,1
-3947,Fri,183.0,1
-3947,Sat,225.0,1
-3947,Sun,225.0,1
+movie_id,day,realized_tickets,scheduled_flag,genres_on_day
+978,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+978,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+978,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+978,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+978,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+978,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+978,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3664,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3664,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3664,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3664,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3664,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3664,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3664,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3488,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3488,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3488,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3488,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3488,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3488,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3488,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2464,Mon,20.778,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2464,Tue,20.778,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2464,Wed,23.375,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2464,Thu,25.973,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2464,Fri,33.765,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2464,Sat,41.556,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2464,Sun,41.556,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2876,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2876,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2876,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2876,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2876,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2876,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2876,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2486,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2486,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2486,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2486,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2486,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2486,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2486,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2799,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2799,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2799,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2799,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2799,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2799,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2799,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1793,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1793,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1793,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1793,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1793,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1793,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1793,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2552,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2552,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2552,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2552,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2552,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2552,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2552,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+471,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+471,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+471,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+471,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+471,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+471,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+471,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3903,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3903,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3903,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3903,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3903,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3903,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+3903,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1751,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1751,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1751,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1751,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1751,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1751,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1751,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+266,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+266,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+266,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+266,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+266,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+266,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+266,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2686,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2686,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2686,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2686,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2686,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2686,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+2686,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1292,Mon,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1292,Tue,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1292,Wed,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1292,Thu,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1292,Fri,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1292,Sat,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
+1292,Sun,0.0,1,"action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science_fiction, thriller, tv_movie, war, western"
